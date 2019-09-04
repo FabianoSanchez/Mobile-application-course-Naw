@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Logica app</string>
+    <string name="conjuction_text">Conjunction(AND)</string>
+    <string name="a_value">A</string>
+    <string name="true_text">T</string>
+    <string name="false_text">F</string>
+    <string name="b_value">B</string>
+    <string name="answer_value">A^B</string>
+    <string name="sumbit_text">Sumbit</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="not_filled">Niet alles is ingevuld!</string>
+</resources>
