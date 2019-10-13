@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Student Portal</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_text">ADD PORTAl</string>
+    <string name="title_text">Title</string>
+    <string name="portal">%1$s\n%2$s</string>
+    <string name="url_text">Url</string>
+    <string name="link_text" >http://</string>
+    <string name="app_title">Student Portal</string>
+</resources>
