@@ -1,0 +1,34 @@
+package com.example.shoppinglist.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.shoppinglist.model.Product
+
+@Database(entities = [Product::class],version = 1,exportSchema = false)
+abstract class ListRoomDatabase : RoomDatabase(){
+
+    abstract fun productDao():ProductDao
+
+    companion object{
+        private const val DATABASE_NAME = "SHOPPING_LIST_DATABASE"
+
+        @Volatile
+        private var shoppingListRoomDatabaseInstance: ListRoomDatabase? = null
+
+            fun getDatabase(context: Context) : ListRoomDatabase?{
+                if(shoppingListRoomDatabaseInstance == null){
+                    synchronized(ListRoomDatabase::class.java){
+                        if(shoppingListRoomDatabaseInstance == null){
+                            shoppingListRoomDatabaseInstance =
+                                Room.databaseBuilder(context.applicationContext, ListRoomDatabase::class.java,
+                                    DATABASE_NAME).build()
+                        }
+                    }
+                }
+                return shoppingListRoomDatabaseInstance
+            }
+    }
+
+}
