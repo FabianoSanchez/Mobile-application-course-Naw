@@ -30,9 +30,9 @@ class GameAdapter(private val games: List<Game>) : RecyclerView.Adapter<GameAdap
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(game: Game) {
             when(game.result){
-                0 -> itemView.tvCurrentResult.text = "Draw"
-                1 -> itemView.tvCurrentResult.text = "Player Wins!"
-                2 -> itemView.tvCurrentResult.text = "Computer Wins!"
+                draw -> itemView.tvCurrentResult.text = context.getString(R.string.draw_text)
+                win -> itemView.tvCurrentResult.text = context.getString(R.string.win_text)
+                loss -> itemView.tvCurrentResult.text = context.getString(R.string.loss_text)
             }
 
             itemView.tvTimeStamp.text = game.timeStamp.toString()

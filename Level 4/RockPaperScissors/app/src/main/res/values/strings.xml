@@ -7,4 +7,7 @@
     <string name="instruction_text">Instructions: select rock, paper or scissors to play</string>
     <string name="statistics_text">Your all time statisctics</string>
     <string name="result_statistics">Win: %1@   Draw: %2$s    Lose:  %3$s</string>
+    <string name="draw_text">Draw</string>
+    <string name="win_text">Player Wins</string>
+    <string name="loss_text">Computer Wins</string>
 </resources>
