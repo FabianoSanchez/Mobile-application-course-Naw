@@ -47,9 +47,8 @@ public class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.games.observe(this, Observer {games ->
-            println("Wtf $games")
             this@MainActivity.games.clear()
-            this@MainActivity.games.addAll(games)
+            this@MainActivity.games.addAll(games.sortedBy {it.releaseDate})
             gameAdapter.notifyDataSetChanged()
         })
     }
