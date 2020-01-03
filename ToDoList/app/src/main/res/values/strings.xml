@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ToDoList</string>
+    <string name="action_settings">Settings</string>
+    <string name="server_client_id">1016165876023-l09v79ikjbc76ajj90o387kjcggtt1g5.apps.googleusercontent.com</string>
+    <string name="login_btn">Login with Google</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="action_logout">Log Out</string>
+    <string name="client_secret">GLaoK8MdRCqjL7m9BkpNQrjN</string>
+    <string name="api_key">AIzaSyBC7x2GzxYUJ9Pe7uCdAawvIJQDuoBoDmk</string>
+</resources>
