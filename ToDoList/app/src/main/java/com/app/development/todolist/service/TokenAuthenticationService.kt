@@ -17,11 +17,13 @@ interface TokenAuthenticationService {
                      @Query("redirect_uri")redirectUri:String,
                      @Query("client_secret")clientSecret:String,
                      @Query("grant_type") grantType: String,
-                     @Query("scope")scope:String) : Response<Token>
+                     @Query("scope")scope:String,
+                     @Query("access_type")accessType:String,
+                     @Query("approval_prompt")approvalPrompt:String) : Response<Token>
 
 
     @POST("token")
-    fun refreshToken(@Query("refresh_token") refreshToken:String,
+    suspend fun refreshToken(@Query("refresh_token") refreshToken:String,
                      @Query("client_id") clientId:String,
                      @Query("client_secret") clientSecret:String,
                      @Query("grant_type")grantType: String): Response<Token>

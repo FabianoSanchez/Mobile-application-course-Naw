@@ -20,7 +20,7 @@ abstract class CalendarApi(context: Context) {
     }
 
     companion object{
-        private const val baseUrl = "https://www.googleapis.com/calendar/v3/users/me/"
+        private const val baseUrl = "https://www.googleapis.com/calendar/v3/"
 
         fun createApi(): CalendarApiService{
             val okHttpClient = OkHttpClient.Builder()

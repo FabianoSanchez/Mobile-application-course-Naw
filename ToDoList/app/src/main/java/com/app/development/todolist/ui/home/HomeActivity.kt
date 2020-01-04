@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebViewFragment
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
@@ -34,7 +35,6 @@ class HomeActivity : AppCompatActivity() {
 
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var progressOverlay: View
     private var prefs = Preference(this)
 
@@ -48,31 +48,10 @@ class HomeActivity : AppCompatActivity() {
         progressOverlay = findViewById(R.id.progress_overlay)
         progressOverlay.bringToFront()
         initNavigation()
-        initViewModels()
         initGoogleSignIn()
-        checkCalendar()
 
     }
 
-
-    private fun checkCalendar(){
-        val calendarId = prefs.getPreference().getString(Preference.CALENDAR_ID,"")
-        if(calendarId.isNullOrEmpty()){
-            val intent = Intent(this,AddCalendar::class.java)
-            startActivityForResult(intent, ADD_CALENDAR_REQUEST_CODE)
-        }else{
-            initCalendarData(calendarId)
-        }
-    }
-
-    private fun initCalendarData(calendarId: String){
-            println("CalendarId $calendarId")
-    }
-
-    private fun initViewModels(){
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
-    }
 
     private fun initGoogleSignIn(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -93,31 +72,22 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
-                ADD_CALENDAR_REQUEST_CODE ->{
-                    val calendarId = data!!.getStringExtra(AddCalendar.EXTRA_CALENDAR_ID)
-                    prefs.getPreference().getString(Preference.CALENDAR_ID,calendarId)
-                    initCalendarData(calendarId!!)
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId){
-            R.id.logoutBtn -> {
+        when(item.itemId){
+            R.id.action_logout -> {
               logOutUser()
             }
+            R.id.action_calendar ->{
+                return false
+            }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
     private fun logOutUser(){
-        prefs.getPreference().edit().clear().apply()
+        deletePreferences()
 
         Util.animateView(progressOverlay,View.VISIBLE,0.4f,200)
         mGoogleSignInClient.signOut().addOnCompleteListener(this, {
@@ -128,6 +98,11 @@ class HomeActivity : AppCompatActivity() {
 
             })
         })
+    }
+    private fun deletePreferences(){
+        prefs.getPreference().edit().remove(Preference.ACCESS_TOKEN).apply()
+        prefs.getPreference().edit().remove(Preference.USER_AUTH_ID).apply()
+        prefs.getPreference().edit().remove(Preference.CALENDAR_ID).apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
