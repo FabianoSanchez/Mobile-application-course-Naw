@@ -19,7 +19,7 @@ interface TokenAuthenticationService {
                      @Query("grant_type") grantType: String,
                      @Query("scope")scope:String,
                      @Query("access_type")accessType:String,
-                     @Query("approval_prompt")approvalPrompt:String) : Response<Token>
+                     @Query("prompt")prompt:String) : Response<Token>
 
 
     @POST("token")

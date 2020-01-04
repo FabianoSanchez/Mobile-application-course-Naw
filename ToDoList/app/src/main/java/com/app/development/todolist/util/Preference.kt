@@ -1,9 +1,8 @@
 package com.app.development.todolist.util
 
 import android.content.Context
-import android.content.SharedPreferences
 
-class Preference(private val context: Context){
+class Preference{
 
     companion object{
         const val PRIVATE_MODE = 0
@@ -13,8 +12,5 @@ class Preference(private val context: Context){
         const val USER_AUTH_ID = "USER_AUTH_ID"
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
 
-    }
-    public fun getPreference(): SharedPreferences{
-        return context.getSharedPreferences(PREFS_FILENAME, PRIVATE_MODE)
     }
 }

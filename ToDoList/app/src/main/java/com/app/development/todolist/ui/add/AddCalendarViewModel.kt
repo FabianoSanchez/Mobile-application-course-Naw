@@ -10,9 +10,14 @@ import com.app.development.todolist.model.Token
 import com.app.development.todolist.repository.CalendarRepository
 import com.app.development.todolist.repository.TokenAuthenticationsRepository
 import com.app.development.todolist.util.Preference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 public class AddCalendarViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,31 +28,34 @@ public class AddCalendarViewModel(application: Application) : AndroidViewModel(a
 
     val calendar =  MutableLiveData<List<CalendarItem>>()
 
+    public fun getListOfCalendars() {
+        val accessToken =
+            context.getSharedPreferences(Preference.PREFS_FILENAME, Preference.PRIVATE_MODE)
+                .getString(Preference.ACCESS_TOKEN, "")
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = calendarRepository.getListOfCalendars(apiKey, accessToken!!)
 
-    public fun getListOfCalendars(){
-        val accessToken = context.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE).getString(Preference.ACCESS_TOKEN,"")
-
-        calendarRepository.getListOfCalendars(apiKey,accessToken!!).enqueue(object:
-            Callback<CalendarList> {
-            override fun onFailure(call: Call<CalendarList>, t: Throwable) {
-                t.printStackTrace()
-            }
-
-            override fun onResponse(call: Call<CalendarList>, response: Response<CalendarList>) {
-                try{
-                    if(response.isSuccessful){
-                        calendar.apply{value = response.body()?.item}
-                    }else if(response.code() == 401){
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        calendar.apply { value = response.body()?.item }
+                        println("Received Response")
+                    } else if (response.code() == 401) {
                         println("Refreshing Token : ${response.code()}")
                         tokenAuthenticationsRepository.refreshToken()
                         getListOfCalendars()
                     }
-                }catch (e: JSONException){
+                } catch (e: HttpException) {
+                    println("Http Exception ${e.message()}")
+                    e.printStackTrace()
+                } catch (e: Throwable) {
+                    println("Oops Something went wrong")
                     e.printStackTrace()
                 }
             }
-        })
+        }
+
     }
 
 }

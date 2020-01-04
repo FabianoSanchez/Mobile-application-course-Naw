@@ -23,7 +23,7 @@ class TokenAuthenticationsRepository(context: Context) {
     private val grantTypeAuthorization = "authorization_code"
     private val grantTypeRefresh = "refresh_token"
     private val accessType = "offline"
-    private val approvalPrompt = "force"
+    private val prompt = "consent"
 
 
 
@@ -32,13 +32,15 @@ class TokenAuthenticationsRepository(context: Context) {
             val serverAuthCode = account.serverAuthCode
             CoroutineScope(Dispatchers.IO).launch {
                 val response = tokenAuthenticationService.getAuthToken(serverAuthCode!!,
-                    clientId,"",clientSecret,grantTypeAuthorization,scope,accessType,approvalPrompt)
+                    clientId,"",clientSecret,grantTypeAuthorization,scope,accessType,prompt)
                 withContext(Dispatchers.Main){
                     try{
                         if (response.isSuccessful){
                             val prefs = context.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
-                            prefs.edit().putString(Preference.REFRESH_TOKEN,response.body()?.refreshToken).apply()
-                            prefs.edit().putString(Preference.ACCESS_TOKEN,response.body()?.accessToken).apply()
+                            if(response.body()?.refreshToken != null){
+                                prefs.edit().putString(Preference.REFRESH_TOKEN,response.body()?.refreshToken).apply()
+                            }
+                            prefs.edit().putString(Preference.ACCESS_TOKEN, response.body()?.accessToken).apply()
                         }else{
                             Toast.makeText(context,"Error: ${response.code()}",Toast.LENGTH_LONG).show()
                         }

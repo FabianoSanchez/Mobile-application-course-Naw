@@ -1,6 +1,5 @@
 package com.app.development.todolist.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,17 +7,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.webkit.WebViewFragment
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.app.development.todolist.R
-import com.app.development.todolist.model.GoogleCalendar
-import com.app.development.todolist.ui.add.AddCalendar
 import com.app.development.todolist.ui.main.MainActivity
 import com.app.development.todolist.util.Preference
 import com.app.development.todolist.util.Util
@@ -26,8 +20,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
-import com.google.android.gms.tasks.OnCompleteListener
-
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
 
@@ -36,7 +28,8 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var progressOverlay: View
-    private var prefs = Preference(this)
+    private lateinit var prefs: SharedPreferences
+
 
 
 
@@ -49,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         progressOverlay.bringToFront()
         initNavigation()
         initGoogleSignIn()
+        prefs = this.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
 
     }
 
@@ -66,13 +60,10 @@ class HomeActivity : AppCompatActivity() {
         val navController = findNavController(R.id.navHomeFragment)
         NavigationUI.setupWithNavController(navView, navController)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.toDoFragment,R.id.settingsFragment,R.id.homeFragment
+            R.id.toDoFragment,R.id.homeFragment
         ))
         toolbar.setupWithNavController(navController, appBarConfiguration)
     }
-
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -88,21 +79,19 @@ class HomeActivity : AppCompatActivity() {
 
     private fun logOutUser(){
         deletePreferences()
-
         Util.animateView(progressOverlay,View.VISIBLE,0.4f,200)
-        mGoogleSignInClient.signOut().addOnCompleteListener(this, {
-            mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,{
-                val intent = Intent(this,MainActivity::class.java)
-                Util.animateView(progressOverlay,View.GONE,0f,200)
-                startActivity(intent)
-
-            })
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,{
+            mGoogleSignInClient.signOut()
+            val intent = Intent(this,MainActivity::class.java)
+            Util.animateView(progressOverlay,View.GONE,0f,200)
+            startActivity(intent)
         })
+
     }
     private fun deletePreferences(){
-        prefs.getPreference().edit().remove(Preference.ACCESS_TOKEN).apply()
-        prefs.getPreference().edit().remove(Preference.USER_AUTH_ID).apply()
-        prefs.getPreference().edit().remove(Preference.CALENDAR_ID).apply()
+        prefs.edit().remove(Preference.ACCESS_TOKEN).apply()
+        prefs.edit().remove(Preference.USER_AUTH_ID).apply()
+        prefs.edit().remove(Preference.CALENDAR_ID).apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

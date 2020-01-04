@@ -2,20 +2,15 @@ package com.app.development.todolist.database
 
 import android.content.Context
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.app.development.todolist.model.GoogleCalendar
-import com.app.development.todolist.model.Token
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.*
+import com.app.development.todolist.model.ToDo
+import com.app.development.todolist.model.ToDoList
 
 
-@Database(entities = [GoogleCalendar::class,Token::class], version = 1,exportSchema = false)
+@Database(entities = [ToDoList::class], version = 3,exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class CalendarRoomDatabase : RoomDatabase(){
 
-    abstract fun calendarDao(): CalendarDao
-    abstract fun tokenDao():TokenDao
+    abstract fun toDoDao(): ToDoDao
 
     companion object{
         private const val DATABASE_NAME = "CALENDAR_DATABASE"

@@ -1,4 +1,4 @@
-package com.example.hvaquestion
+package com.example.hvaquestion.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.hvaquestion.ClueFragmentArgs
+import com.example.hvaquestion.ClueFragmentDirections
+import com.example.hvaquestion.R
+import com.example.hvaquestion.repository.QuestRepository
 import kotlinx.android.synthetic.main.fragment_clue.*
-import kotlinx.android.synthetic.main.fragment_question.*
 
 
 class ClueFragment : Fragment() {
@@ -36,7 +39,10 @@ class ClueFragment : Fragment() {
         val questions = questionRepository.getHvaQuest()
         if(questions.getOrNull(args.questionNumber + 1) != null){
             btnNext.setOnClickListener{
-                val action = ClueFragmentDirections.actionClueFragmentToQuestionFragment(args.questionNumber + 1)
+                val action =
+                    ClueFragmentDirections.actionClueFragmentToQuestionFragment(
+                        args.questionNumber + 1
+                    )
                 findNavController().navigate(action)
             }
         }else{

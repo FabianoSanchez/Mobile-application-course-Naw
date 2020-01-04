@@ -12,15 +12,15 @@ import java.util.*
 data class EventItem(
     @SerializedName("id") var id:String,
     @SerializedName("summary") var summary:String,
-    @SerializedName("description") var description: String,
+    @SerializedName("description") var description: String?,
     @SerializedName("start") var start: EventTime,
     @SerializedName("end") var end : EventTime,
-    @SerializedName("location") var location:String
+    @SerializedName("location") var location:String?
 
 ): Parcelable
 
 @Parcelize
 data class EventTime(
-    @SerializedName("date") var date: Date,
-    @SerializedName("dateTime")var dateTime: String
+    @SerializedName("date") var date: String?,
+    @SerializedName("dateTime")var dateTime: String?
 ):Parcelable

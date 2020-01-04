@@ -9,10 +9,13 @@ class CalendarRepository {
     private val calendarApiService: CalendarApiService = CalendarApi.createApi()
 
 
-    fun getListOfCalendars(apiKey:String,accessToken:String) =
+    suspend fun getListOfCalendars(apiKey:String,accessToken:String) =
         calendarApiService.getListOfCalendars(apiKey,accessToken)
 
     suspend fun getListOfEvents(calendarId:String,orderBy:String,dateTime: DateTime,apiKey: String,accessToken: String) =
         calendarApiService.getListOfEvents(calendarId,orderBy,dateTime,apiKey,true,accessToken)
+
+
+    
 
 }

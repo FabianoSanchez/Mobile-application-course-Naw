@@ -1,7 +1,7 @@
 package com.app.development.todolist.service
 
 import android.content.Context
-import com.app.development.todolist.database.CalendarDao
+import com.app.development.todolist.database.ToDoDao
 import com.app.development.todolist.database.CalendarRoomDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,14 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 abstract class CalendarApi(context: Context) {
 
-    private val context: Context? = context
-    private var calendarDao: CalendarDao
-
-    init {
-        val database = CalendarRoomDatabase.getDatabase(context)
-        calendarDao = database!!.calendarDao()
-
-    }
 
     companion object{
         private const val baseUrl = "https://www.googleapis.com/calendar/v3/"

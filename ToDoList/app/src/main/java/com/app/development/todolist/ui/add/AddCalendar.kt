@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.development.todolist.R
 import com.app.development.todolist.model.CalendarItem
+import com.app.development.todolist.util.Preference
 import kotlinx.android.synthetic.main.activity_add_calendar.*
 
 class AddCalendar : AppCompatActivity() {
@@ -32,7 +33,6 @@ class AddCalendar : AppCompatActivity() {
         rvCalendar.adapter = calendarAdapter
         fabSave.setOnClickListener{
             val calendar = calendars.find {it.isSelected}
-            println("calendar: $calendar")
             val resultIntent = Intent()
             resultIntent.putExtra(EXTRA_CALENDAR_ID,calendar?.calendarId)
             setResult(Activity.RESULT_OK,resultIntent)
@@ -48,10 +48,17 @@ class AddCalendar : AppCompatActivity() {
             this@AddCalendar.calendars.clear()
             this@AddCalendar.calendars.addAll(it)
             calendarAdapter.notifyDataSetChanged()
-            println("Boi we doing it : $it")
         })
     }
 
+    override fun onBackPressed() {
+        val prefs = applicationContext.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+        if(prefs.getString(Preference.CALENDAR_ID,"").isNullOrEmpty()){
+            return
+        }else{
+            super.onBackPressed()
+        }
+    }
 
     companion object{
         const val EXTRA_CALENDAR_ID = "EXTRA_CALENDAR_ID"

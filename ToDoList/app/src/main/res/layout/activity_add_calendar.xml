@@ -19,12 +19,12 @@
         android:id="@+id/fabSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="#FFFFFF"
         android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_arrow_forward_white_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

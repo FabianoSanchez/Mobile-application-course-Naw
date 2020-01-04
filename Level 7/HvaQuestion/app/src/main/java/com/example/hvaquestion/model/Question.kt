@@ -1,4 +1,4 @@
-package com.example.hvaquestion
+package com.example.hvaquestion.model
 
 
 data class Question(

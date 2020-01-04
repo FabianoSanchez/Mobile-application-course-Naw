@@ -8,4 +8,8 @@
     <string name="action_logout">Log Out</string>
     <string name="client_secret">GLaoK8MdRCqjL7m9BkpNQrjN</string>
     <string name="api_key">AIzaSyBC7x2GzxYUJ9Pe7uCdAawvIJQDuoBoDmk</string>
+    <string name="all_day">All Day</string>
+    <string name="event_time">%1s-%2s</string>
+    <string name="todo_list">TO-DO List</string>
+    <string name="hint_todo">Add Item</string>
 </resources>

@@ -14,8 +14,8 @@ import retrofit2.http.Query
 interface CalendarApiService {
 
     @GET("users/me/calendarList")
-    fun getListOfCalendars(@Query("key") apiKey: String,
-                           @Query("access_token") accessToken:String) : Call<CalendarList>
+    suspend fun getListOfCalendars(@Query("key") apiKey: String,
+                           @Query("access_token") accessToken:String) : Response<CalendarList>
 
 
 

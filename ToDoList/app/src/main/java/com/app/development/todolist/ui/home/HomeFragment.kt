@@ -9,23 +9,30 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.development.todolist.ui.detail.EventDetail
 import com.app.development.todolist.R
 import com.app.development.todolist.model.EventItem
+import com.app.development.todolist.model.EventList
 import com.app.development.todolist.ui.add.AddCalendar
 import com.app.development.todolist.util.Preference
+import com.app.development.todolist.util.Util
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    private val events = arrayListOf<EventItem>()
-    private val eventAdapter = HomeAdapter(events)
+    private val events = arrayListOf<EventList>()
+    private val eventAdapter = DateAdapter(events,{eventItem -> onEventClick(eventItem)})
     private lateinit var prefs:SharedPreferences
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +51,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews(){
-        rvEvents.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        rvEvents.adapter = eventAdapter
+        rvDates.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        rvDates.adapter = eventAdapter
     }
 
     private fun initViewModels(){
@@ -53,14 +60,14 @@ class HomeFragment : Fragment() {
 
         homeViewModel.events.observe(this, Observer {
             this@HomeFragment.events.clear()
-            this@HomeFragment.events.addAll(it)
+            this@HomeFragment.events.addAll(Util.groupListEventByDate(it))
             eventAdapter.notifyDataSetChanged()
         })
     }
 
 
     private fun checkCalendarId(){
-        val calendarId = prefs?.getString(Preference.CALENDAR_ID,"")
+        val calendarId = prefs.getString(Preference.CALENDAR_ID,"")
         if(calendarId.isNullOrEmpty()){
             runCalendarIntent()
         }else{
@@ -100,7 +107,7 @@ class HomeFragment : Fragment() {
         println("get Calendar1 $calendarId")
         println("get Calendar ${prefs.getString(Preference.CALENDAR_ID,"")}")
         homeViewModel.getListOfEvents()
-        eventAdapter.notifyDataSetChanged()
+
     }
 
     override fun onAttach(context: Context?) {
@@ -108,5 +115,15 @@ class HomeFragment : Fragment() {
         prefs = context!!.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
     }
 
+    private fun onEventClick(eventItem: EventItem){
+        val intent = Intent(context, EventDetail::class.java)
+        intent.putExtra(EXTRA_EVENT, eventItem)
+        startActivity(intent)
+    }
+
+
+    companion object{
+        const val EXTRA_EVENT = "EXTRA_EVENT"
+    }
 
 }

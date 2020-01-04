@@ -1,4 +1,4 @@
-package com.example.hvaquestion
+package com.example.hvaquestion.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.hvaquestion.QuestionFragmentArgs
+import com.example.hvaquestion.QuestionFragmentDirections
+import com.example.hvaquestion.R
+import com.example.hvaquestion.repository.QuestRepository
 import kotlinx.android.synthetic.main.fragment_question.*
 
 class QuestionFragment : Fragment() {
@@ -54,7 +56,11 @@ class QuestionFragment : Fragment() {
         val question = questions[args.questionNumber]
         val correctAnswer = question.correctAnswer
         if(selectedAnswer == correctAnswer){
-            val action = QuestionFragmentDirections.actionQuestionFragmentToClueFragment(question.clue,args.questionNumber)
+            val action =
+                QuestionFragmentDirections.actionQuestionFragmentToClueFragment(
+                    question.clue,
+                    args.questionNumber
+                )
             findNavController().navigate(action)
         }else{
             Toast.makeText(context,"Your answer is wrong",Toast.LENGTH_SHORT).show()
@@ -71,7 +77,7 @@ class QuestionFragment : Fragment() {
             radioButton.text = it
             radioGroup.addView(radioButton)
         }
-        radioGroup.setOnCheckedChangeListener{radioGroup, checkId ->
+        radioGroup.setOnCheckedChangeListener{ _radioGroup, checkId ->
             selectedAnswer = view?.findViewById<RadioButton>(checkId)?.text.toString()
         }
         rgAnswer.addView(radioGroup)
