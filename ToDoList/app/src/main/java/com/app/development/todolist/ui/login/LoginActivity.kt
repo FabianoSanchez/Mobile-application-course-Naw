@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.app.development.todolist.R
 import com.app.development.todolist.ui.home.HomeActivity
+import com.app.development.todolist.util.Preference
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
     private fun onClick(){
         val signInIntent = mGoogleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
+        println("boi Why")
     }
 
     private fun initViewModel(){
@@ -55,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_SIGN_IN){
+            println("2 my boi")
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
@@ -62,6 +65,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>){
         try{
+            val prefs = getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+            prefs.edit().putBoolean(Preference.FIRST_TIME,false).apply()
             val account = completedTask.getResult(ApiException::class.java)
             loginViewModel.getAuthToken(account!!)
             val intent = Intent(this,HomeActivity::class.java)

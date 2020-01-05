@@ -9,6 +9,7 @@ class Preference{
         const val CALENDAR_ID = "CALENDAR_ID"
         const val USER_AUTH_ID = "USER_AUTH_ID"
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
+        const val FIRST_TIME = "FIRST_TIME"
 
     }
 }

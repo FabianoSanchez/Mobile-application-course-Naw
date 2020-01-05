@@ -6,25 +6,27 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.development.todolist.R
 import com.app.development.todolist.ui.home.HomeActivity
 import com.app.development.todolist.ui.login.LoginActivity
+import com.app.development.todolist.util.Preference
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
     }
 
     override fun onStart(){
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        validateAccount(account)
-        println("Id Token ${account?.idToken}")
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val prefs = this.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+        val firstTime = prefs.getBoolean(Preference.FIRST_TIME,true)
+        validateAccount(firstTime)
     }
 
-    private fun validateAccount(account: GoogleSignInAccount?){
-        if(account == null){
+    private fun validateAccount(firstTime : Boolean){
+        if(firstTime){
              val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
         }else{

@@ -33,7 +33,7 @@ class AllToDoAdapter (private val allToDos : List<ToDo>):RecyclerView.Adapter<Al
                 itemView.tvToDo.paintFlags = (itemView.tvToDo.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG)
                 itemView.ivCompleted.setImageDrawable(context.getDrawable(R.drawable.ic_check_circle_green_24dp))
             }
-            else itemView.ivCompleted.setImageDrawable(context.getDrawable(R.drawable.ic_radio_button_unchecked_red_24dp))
+            else itemView.ivCompleted.visibility = View.GONE
         }
     }
 }

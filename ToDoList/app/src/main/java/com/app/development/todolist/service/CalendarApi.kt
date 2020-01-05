@@ -1,12 +1,11 @@
 package com.app.development.todolist.service
 
-import android.content.Context
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-abstract class CalendarApi(context: Context) {
+abstract class CalendarApi {
 
 
     companion object{

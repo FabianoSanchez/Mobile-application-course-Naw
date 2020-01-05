@@ -6,7 +6,8 @@ import com.app.development.todolist.R
 import com.app.development.todolist.service.TokenAuthentication
 import com.app.development.todolist.service.TokenAuthenticationService
 import com.app.development.todolist.util.Preference
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.*
+import com.google.android.gms.common.api.Scope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,8 +28,18 @@ class TokenAuthenticationRepository(context: Context) {
 
 
 
+    private fun silentSignIn(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestServerAuthCode(context.getString(R.string.server_client_id))
+            .requestScopes(Scope("https://www.googleapis.com/auth/calendar.readonly"))
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(context,gso)
+        mGoogleSignInClient.silentSignIn()
+    }
 
      fun getAuthToken(account:GoogleSignInAccount){
+            silentSignIn()
             val serverAuthCode = account.serverAuthCode
             CoroutineScope(Dispatchers.IO).launch {
                 val response = tokenAuthenticationService.getAuthToken(serverAuthCode!!,
@@ -37,9 +48,7 @@ class TokenAuthenticationRepository(context: Context) {
                     try{
                         if (response.isSuccessful){
                             val prefs = context.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
-                            if(response.body()?.refreshToken != null){
-                                prefs.edit().putString(Preference.REFRESH_TOKEN,response.body()?.refreshToken).apply()
-                            }
+                            prefs.edit().putString(Preference.REFRESH_TOKEN,response.body()?.refreshToken).apply()
                             prefs.edit().putString(Preference.ACCESS_TOKEN, response.body()?.accessToken).apply()
                         }else{
                             Toast.makeText(context,"Error: ${response.code()}",Toast.LENGTH_LONG).show()

@@ -11,7 +11,8 @@
     <string name="hint_todo">Add Item</string>
     <string name="todo_amount">%1s To-Do\'s</string>
     <string name="no_todo_amount">No To-Do\'s</string>
-    <string name="action_sync">Sync</string>
+    <string name="action_sync">Choose Calendar</string>
     <string name="action_calendar">Calendar</string>
     <string name="action_all_todo">All To-Do\'s</string>
+    <string name="empty_recyclerview">You have no To-Do\'s</string>
 </resources>

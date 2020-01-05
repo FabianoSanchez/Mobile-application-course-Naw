@@ -1,6 +1,7 @@
 package com.app.development.todolist.ui.todo
 
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -54,6 +55,9 @@ class ToDoFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ToDoViewModel::class.java)
 
         viewModel.toDos.observe(this, Observer {
+            if(it.isNotEmpty()) {
+                tvEmptyrv.visibility = View.GONE
+            }
             this@ToDoFragment.allToDos.clear()
             this@ToDoFragment.allToDos.addAll(getAllToDoFromToDoList(it))
             toDoAdapter.notifyDataSetChanged()
@@ -62,8 +66,8 @@ class ToDoFragment : Fragment() {
 
     private fun getAllToDoFromToDoList(toDoList:List<ToDoList>): List<ToDo>{
         val list = mutableListOf<ToDo>()
-        toDoList.forEach {toDoList ->
-            toDoList.todoItems.forEach{
+        toDoList.forEach {_toDoList ->
+            _toDoList.todoItems.forEach{
                 list.add(it)
             }
         }

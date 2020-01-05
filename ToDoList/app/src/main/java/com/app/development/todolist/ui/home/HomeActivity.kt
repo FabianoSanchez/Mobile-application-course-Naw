@@ -98,9 +98,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
     private fun deletePreferencesAndRoom(){
-        prefs.edit().remove(Preference.ACCESS_TOKEN).apply()
-        prefs.edit().remove(Preference.USER_AUTH_ID).apply()
-        prefs.edit().remove(Preference.CALENDAR_ID).apply()
+        prefs.edit().clear().apply()
         homeViewModel.deleteAllTables()
     }
 
