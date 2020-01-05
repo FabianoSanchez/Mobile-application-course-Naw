@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
         if (calendarId.isNullOrEmpty()) {
             runCalendarIntent()
         } else {
-            initCalendarData(calendarId)
+            initCalendarData()
         }
     }
 
@@ -120,16 +120,14 @@ class HomeFragment : Fragment() {
                 HomeActivity.ADD_CALENDAR_REQUEST_CODE -> {
                     val calendarId = data!!.getStringExtra(AddCalendarActivity.EXTRA_CALENDAR_ID)
                     prefs.edit().putString(Preference.CALENDAR_ID, calendarId).apply()
-                    initCalendarData(calendarId!!)
+                    initCalendarData()
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun initCalendarData(calendarId: String) {
-        println("get Calendar1 $calendarId")
-        println("get Calendar ${prefs.getString(Preference.CALENDAR_ID, "")}")
+    private fun initCalendarData() {
         homeViewModel.getListOfEvents()
     }
 

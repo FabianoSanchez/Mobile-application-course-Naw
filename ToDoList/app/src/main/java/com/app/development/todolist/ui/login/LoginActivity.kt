@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
     private fun onClick() {
         val signInIntent = mGoogleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
-        println("boi Why")
     }
 
     private fun initViewModel() {
