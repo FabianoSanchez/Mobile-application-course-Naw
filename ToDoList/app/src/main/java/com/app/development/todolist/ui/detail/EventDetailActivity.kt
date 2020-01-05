@@ -3,7 +3,6 @@ package com.app.development.todolist.ui.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +18,7 @@ import com.app.development.todolist.ui.home.HomeFragment
 import com.app.development.todolist.util.Util
 import kotlinx.android.synthetic.main.activity_event_detail.*
 
-class EventDetail : AppCompatActivity() {
+class EventDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: EventDetailViewModel
     private lateinit var eventItem:EventItem
@@ -39,9 +38,9 @@ class EventDetail : AppCompatActivity() {
 
 
     private fun initViews(){
-        rvToDo.layoutManager = LinearLayoutManager(this@EventDetail,LinearLayoutManager.VERTICAL,false)
+        rvToDo.layoutManager = LinearLayoutManager(this@EventDetailActivity,LinearLayoutManager.VERTICAL,false)
         rvToDo.adapter = toDoAdapter
-        rvToDo.addItemDecoration(DividerItemDecoration(this@EventDetail,DividerItemDecoration.VERTICAL))
+        rvToDo.addItemDecoration(DividerItemDecoration(this@EventDetailActivity,DividerItemDecoration.VERTICAL))
         createItemTouchHelper().attachToRecyclerView(rvToDo)
 
         eventItem = intent.extras?.getParcelable(HomeFragment.EXTRA_EVENT)!!
@@ -57,9 +56,9 @@ class EventDetail : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(EventDetailViewModel::class.java)
         viewModel.getListOfToDo(eventItem.id)
         viewModel.toDo.observe(this, Observer { toDoList ->
-            this@EventDetail.toDos.clear()
+            this@EventDetailActivity.toDos.clear()
             if(toDoList != null) {
-                this@EventDetail.toDos.addAll(toDoList.todoItems)
+                this@EventDetailActivity.toDos.addAll(toDoList.todoItems)
             }
             toDoAdapter.notifyDataSetChanged()
         })

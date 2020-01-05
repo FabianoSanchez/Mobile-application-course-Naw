@@ -3,8 +3,6 @@ package com.app.development.todolist.ui.detail
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.app.development.todolist.model.ToDo
 import com.app.development.todolist.model.ToDoList
 import com.app.development.todolist.repository.ToDoRepository
 import kotlinx.coroutines.CoroutineScope

@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -28,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var progressOverlay: View
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var prefs: SharedPreferences
 
 
@@ -40,9 +42,11 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         progressOverlay = findViewById(R.id.progress_overlay)
         progressOverlay.bringToFront()
+        prefs = this.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+
         initNavigation()
         initGoogleSignIn()
-        prefs = this.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+        initViewModel()
 
     }
 
@@ -54,6 +58,10 @@ class HomeActivity : AppCompatActivity() {
             .requestScopes(Scope("https://www.googleapis.com/auth/calendar.readonly"))
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
+    }
+
+    private fun initViewModel(){
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
 
     private fun initNavigation(){
@@ -78,7 +86,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun logOutUser(){
-        deletePreferences()
+        deletePreferencesAndRoom()
+
         Util.animateView(progressOverlay,View.VISIBLE,0.4f,200)
         mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,{
             mGoogleSignInClient.signOut()
@@ -88,10 +97,11 @@ class HomeActivity : AppCompatActivity() {
         })
 
     }
-    private fun deletePreferences(){
+    private fun deletePreferencesAndRoom(){
         prefs.edit().remove(Preference.ACCESS_TOKEN).apply()
         prefs.edit().remove(Preference.USER_AUTH_ID).apply()
         prefs.edit().remove(Preference.CALENDAR_ID).apply()
+        homeViewModel.deleteAllTables()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

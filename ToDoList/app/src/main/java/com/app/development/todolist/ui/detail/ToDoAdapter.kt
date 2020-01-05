@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.development.todolist.R
 import com.app.development.todolist.model.ToDo
-import kotlinx.android.synthetic.main.todo_item.view.*
+import kotlinx.android.synthetic.main.item_todo.view.*
 
 
 
@@ -20,7 +20,7 @@ class ToDoAdapter (private val toDos:List<ToDo>,private val onClick:(List<ToDo>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.todo_item,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_todo,parent,false)
         )
     }
 

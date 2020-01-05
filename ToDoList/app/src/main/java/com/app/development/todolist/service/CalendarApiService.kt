@@ -3,11 +3,8 @@ package com.app.development.todolist.service
 import com.app.development.todolist.model.CalendarList
 import com.app.development.todolist.model.EventList
 import com.google.api.client.util.DateTime
-import com.google.api.services.calendar.CalendarScopes
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 

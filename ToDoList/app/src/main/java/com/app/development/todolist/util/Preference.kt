@@ -1,7 +1,5 @@
 package com.app.development.todolist.util
 
-import android.content.Context
-
 class Preference{
 
     companion object{

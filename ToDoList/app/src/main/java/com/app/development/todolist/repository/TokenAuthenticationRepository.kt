@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-class TokenAuthenticationsRepository(context: Context) {
+class TokenAuthenticationRepository(context: Context) {
     private val tokenAuthenticationService: TokenAuthenticationService = TokenAuthentication.createApi()
 
     private val context = context.applicationContext
@@ -28,7 +28,7 @@ class TokenAuthenticationsRepository(context: Context) {
 
 
 
-    public fun getAuthToken(account:GoogleSignInAccount){
+     fun getAuthToken(account:GoogleSignInAccount){
             val serverAuthCode = account.serverAuthCode
             CoroutineScope(Dispatchers.IO).launch {
                 val response = tokenAuthenticationService.getAuthToken(serverAuthCode!!,
@@ -54,7 +54,7 @@ class TokenAuthenticationsRepository(context: Context) {
         }
 
 
-    public fun refreshToken() {
+     fun refreshToken() {
         val pref = context.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
         val refreshToken = pref.getString(Preference.REFRESH_TOKEN,"")!!
         println("refresh_token $refreshToken")

@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mcView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
-        app:cardPreventCornerOverlap="false"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:drawable/dialog_holo_light_frame"
-        app:cardBackgroundColor="#CFD2FF"
+        app:cardBackgroundColor="#F1F1F1"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvToDo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="9dp"
             android:layout_marginBottom="10dp"
-            android:text="TextView" />
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/rbCalendar"
+        <ImageView
+            android:id="@+id/ivCompleted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:buttonTint="#676BFF"
-            android:clickable="false"
-            android:focusable="false"
-            android:paddingStart="5dp"
-            android:paddingBottom="30dp"
-            android:shadowColor="#00000000"
-            android:text="RadioButton"
-            android:textColor="@android:color/primary_text_light"
-            android:textSize="18sp" />
+            android:layout_gravity="center|start"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/ic_check_circle_green_24dp" />
+
     </com.google.android.material.card.MaterialCardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

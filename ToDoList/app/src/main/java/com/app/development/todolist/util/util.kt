@@ -4,17 +4,11 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.View
-import androidx.core.view.ViewCompat.animate
-import androidx.core.view.ViewCompat.setAlpha
 import com.app.development.todolist.R
 import com.app.development.todolist.model.EventItem
 import com.app.development.todolist.model.EventList
-import kotlinx.android.synthetic.main.event_item.view.*
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class Util{

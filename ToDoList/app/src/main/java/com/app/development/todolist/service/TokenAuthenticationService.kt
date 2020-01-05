@@ -1,12 +1,9 @@
 package com.app.development.todolist.service
 
 import com.app.development.todolist.model.Token
-import com.google.api.client.json.Json
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface TokenAuthenticationService {
 

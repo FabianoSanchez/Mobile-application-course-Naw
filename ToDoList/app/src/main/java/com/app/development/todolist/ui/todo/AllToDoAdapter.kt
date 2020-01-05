@@ -1,12 +1,14 @@
 package com.app.development.todolist.ui.todo
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.app.development.todolist.R
 import com.app.development.todolist.model.ToDo
+import kotlinx.android.synthetic.main.item_all_todo.view.*
 
 class AllToDoAdapter (private val allToDos : List<ToDo>):RecyclerView.Adapter<AllToDoAdapter.ViewHolder>(){
     lateinit var context: Context
@@ -14,7 +16,7 @@ class AllToDoAdapter (private val allToDos : List<ToDo>):RecyclerView.Adapter<Al
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_all_todo,parent,false)
         )
     }
 
@@ -25,10 +27,13 @@ class AllToDoAdapter (private val allToDos : List<ToDo>):RecyclerView.Adapter<Al
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        private val tvToDo : TextView = itemView.findViewById(android.R.id.text1)
         fun bind(toDo: ToDo){
-            tvToDo.textSize = 20f
-            tvToDo.text = toDo.toDo
+            itemView.tvToDo.text = toDo.toDo
+            if(toDo.isCompleted){
+                itemView.tvToDo.paintFlags = (itemView.tvToDo.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG)
+                itemView.ivCompleted.setImageDrawable(context.getDrawable(R.drawable.ic_check_circle_green_24dp))
+            }
+            else itemView.ivCompleted.setImageDrawable(context.getDrawable(R.drawable.ic_radio_button_unchecked_red_24dp))
         }
     }
 }

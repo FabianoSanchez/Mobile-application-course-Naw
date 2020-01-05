@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_calendar"
+        android:icon="@drawable/ic_sync_white_24dp"
+        android:title="@string/action_sync" />
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_swap_horiz_white_24dp"
-        android:title="@string/action_logout"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_calendar"
-        android:icon="@drawable/ic_autorenew_black_24dp"
-        android:title="@string/action_logout"
-        app:showAsAction="always"/>
+        android:title="@string/action_logout" />
 </menu>

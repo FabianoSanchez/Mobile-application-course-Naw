@@ -1,8 +1,6 @@
 package com.app.development.todolist.service
 
 import android.content.Context
-import com.app.development.todolist.database.ToDoDao
-import com.app.development.todolist.database.CalendarRoomDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

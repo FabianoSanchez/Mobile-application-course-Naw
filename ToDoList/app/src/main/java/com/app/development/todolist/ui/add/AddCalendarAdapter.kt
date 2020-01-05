@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.development.todolist.R
 import com.app.development.todolist.model.CalendarItem
 import com.app.development.todolist.util.Preference
-import kotlinx.android.synthetic.main.calendar_item.view.*
+import kotlinx.android.synthetic.main.item_calendar.view.*
 
 
 class AddCalendarAdapter (private val calendars: List<CalendarItem>) : RecyclerView.Adapter<AddCalendarAdapter.ViewHolder>(){
 
     lateinit var context: Context
     private var lastCheckedPosition = 0
-    var lock = true
+    private var lock = true
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +29,7 @@ class AddCalendarAdapter (private val calendars: List<CalendarItem>) : RecyclerV
 
         calendars[lastCheckedPosition].isSelected = true
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.calendar_item,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_calendar,parent,false)
         )
     }
 

@@ -2,10 +2,8 @@ package com.app.development.todolist.model
 
 import android.os.Parcelable
 import androidx.room.Entity
-import com.google.api.client.util.DateTime
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 @Entity
 @Parcelize

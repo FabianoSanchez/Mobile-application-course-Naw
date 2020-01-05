@@ -5,25 +5,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.app.development.todolist.R
 import com.app.development.todolist.model.CalendarItem
-import com.app.development.todolist.model.CalendarList
-import com.app.development.todolist.model.Token
 import com.app.development.todolist.repository.CalendarRepository
-import com.app.development.todolist.repository.TokenAuthenticationsRepository
+import com.app.development.todolist.repository.TokenAuthenticationRepository
 import com.app.development.todolist.util.Preference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONException
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
 
 public class AddCalendarViewModel(application: Application) : AndroidViewModel(application) {
     private val calendarRepository = CalendarRepository()
     private val context = getApplication<Application>().applicationContext
-    private val tokenAuthenticationsRepository = TokenAuthenticationsRepository(application)
+    private val tokenAuthenticationsRepository = TokenAuthenticationRepository(application)
     private val apiKey = context.getString(R.string.api_key)
 
     val calendar =  MutableLiveData<List<CalendarItem>>()

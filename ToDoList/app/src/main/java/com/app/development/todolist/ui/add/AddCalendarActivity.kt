@@ -12,7 +12,7 @@ import com.app.development.todolist.model.CalendarItem
 import com.app.development.todolist.util.Preference
 import kotlinx.android.synthetic.main.activity_add_calendar.*
 
-class AddCalendar : AppCompatActivity() {
+class AddCalendarActivity : AppCompatActivity() {
 
     private lateinit var viewModel: AddCalendarViewModel
     private val calendars = arrayListOf<CalendarItem>()
@@ -45,8 +45,8 @@ class AddCalendar : AppCompatActivity() {
         viewModel.getListOfCalendars()
 
         viewModel.calendar.observe(this, Observer {
-            this@AddCalendar.calendars.clear()
-            this@AddCalendar.calendars.addAll(it)
+            this@AddCalendarActivity.calendars.clear()
+            this@AddCalendarActivity.calendars.addAll(it)
             calendarAdapter.notifyDataSetChanged()
         })
     }
