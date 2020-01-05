@@ -16,7 +16,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class DateAdapter(private val dates:  List<EventList>, private val allToDos:List<ToDoList>, private val onClick:(EventItem) -> Unit): RecyclerView.Adapter<DateAdapter.ViewHolder>(){
+class DateAdapter(
+    private val dates: List<EventList>,
+    private val allToDos: List<ToDoList>,
+    private val onClick: (EventItem) -> Unit
+) : RecyclerView.Adapter<DateAdapter.ViewHolder>() {
 
     lateinit var context: Context
 
@@ -24,28 +28,32 @@ class DateAdapter(private val dates:  List<EventList>, private val allToDos:List
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_date,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_date, parent, false)
         )
     }
 
     override fun getItemCount(): Int = dates.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dates[position])
     }
 
-    inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun bind(eventList: EventList){
-            val eventAdapter = EventAdapter(dates[adapterPosition].items,allToDos,{eventItem -> onClick(eventItem)})
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(eventList: EventList) {
+            val eventAdapter = EventAdapter(
+                dates[adapterPosition].items,
+                allToDos,
+                { eventItem -> onClick(eventItem) })
             itemView.rvEvents.apply {
-                layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = eventAdapter
             }
             eventAdapter.notifyDataSetChanged()
             val dateTime = LocalDate.parse(eventList.dateTime)
             val suffix = Util.daySuffixForDate(dateTime.dayOfMonth)
             val formatter = DateTimeFormatter.ofPattern("EEEE dd'$suffix' MMMM yyyy").withLocale(
-                Locale.ENGLISH)
+                Locale.ENGLISH
+            )
             itemView.tvDate.text = formatter.format(dateTime)
         }
     }

@@ -11,14 +11,18 @@ import com.app.development.todolist.model.ToDoList
 import com.app.development.todolist.util.Util
 import kotlinx.android.synthetic.main.item_event.view.*
 
-class EventAdapter (private val events: List<EventItem>, private val allToDos:List<ToDoList>, private val onClick:(EventItem) -> Unit):RecyclerView.Adapter<EventAdapter.ViewHolder>(){
+class EventAdapter(
+    private val events: List<EventItem>,
+    private val allToDos: List<ToDoList>,
+    private val onClick: (EventItem) -> Unit
+) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
 
     lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_event,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
         )
     }
 
@@ -26,20 +30,21 @@ class EventAdapter (private val events: List<EventItem>, private val allToDos:Li
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(events[position])
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        init{
-            itemView.setOnClickListener{
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
                 onClick(events[adapterPosition])
             }
         }
 
 
-        fun bind(eventItem: EventItem){
-            val currentToDoList = allToDos.find {it.id == events[adapterPosition].id }
+        fun bind(eventItem: EventItem) {
+            val currentToDoList = allToDos.find { it.id == events[adapterPosition].id }
             val toDoAmount = currentToDoList?.todoItems?.size
-            if (toDoAmount != null) itemView.tvAmount.text = context.getString(R.string.todo_amount,toDoAmount.toString())
+            if (toDoAmount != null) itemView.tvAmount.text =
+                context.getString(R.string.todo_amount, toDoAmount.toString())
             else itemView.tvAmount.text = context.getString(R.string.no_todo_amount)
-            itemView.tvTime.text = Util.getEventTime(eventItem,context)
+            itemView.tvTime.text = Util.getEventTime(eventItem, context)
             itemView.tvSummary.text = eventItem.summary
         }
     }

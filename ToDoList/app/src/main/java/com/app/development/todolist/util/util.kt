@@ -11,11 +11,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class Util{
+class Util {
 
     companion object {
 
-        /**
+        /***
          * @param view         View to animate
          * @param toVisibility Visibility at the end of animation
          * @param toAlpha      Alpha at the end of animation
@@ -37,37 +37,37 @@ class Util{
                 })
         }
 
-        fun groupListEventByDate(events:List<EventItem>): List<EventList>{
-            return events.groupBy { checkValidDate(it)}.entries.map { (date,group) ->
-                EventList(group,date)
+        fun groupListEventByDate(events: List<EventItem>): List<EventList> {
+            return events.groupBy { checkValidDate(it) }.entries.map { (date, group) ->
+                EventList(group, date)
             }.toList()
         }
 
 
-        fun getEventTime(eventItem: EventItem,context: Context): String{
-           return if(eventItem.start.dateTime == null || eventItem.end.dateTime == null){
-               context.getString(R.string.all_day)
-            }else{
-                val startTime = eventItem.start.dateTime!!.subSequence(11,16)
-                val endTime = eventItem.end.dateTime!!.subSequence(11,16)
-               context.getString(R.string.event_time,startTime,endTime)
+        fun getEventTime(eventItem: EventItem, context: Context): String {
+            return if (eventItem.start.dateTime == null || eventItem.end.dateTime == null) {
+                context.getString(R.string.all_day)
+            } else {
+                val startTime = eventItem.start.dateTime!!.subSequence(11, 16)
+                val endTime = eventItem.end.dateTime!!.subSequence(11, 16)
+                context.getString(R.string.event_time, startTime, endTime)
             }
         }
 
-        private fun checkValidDate(eventItem:EventItem):String{
-            return if(eventItem.start.dateTime == null){
+        private fun checkValidDate(eventItem: EventItem): String {
+            return if (eventItem.start.dateTime == null) {
                 return eventItem.start.date!!
-            }else{
+            } else {
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                formatter.format(LocalDateTime.parse(eventItem.start.dateTime!!.subSequence(0,19)))
+                formatter.format(LocalDateTime.parse(eventItem.start.dateTime!!.subSequence(0, 19)))
             }
         }
 
-        fun daySuffixForDate(date:Int):String{
-            return when(date){
-                1,21,31 -> "st"
-                2,22 -> "nd"
-                3,23 -> "rd"
+        fun daySuffixForDate(date: Int): String {
+            return when (date) {
+                1, 21, 31 -> "st"
+                2, 22 -> "nd"
+                3, 23 -> "rd"
                 else -> "th"
             }
         }

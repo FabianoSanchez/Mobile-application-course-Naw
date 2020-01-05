@@ -15,12 +15,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.app.development.todolist.ui.detail.EventDetailActivity
 import com.app.development.todolist.R
 import com.app.development.todolist.model.EventItem
 import com.app.development.todolist.model.EventList
 import com.app.development.todolist.model.ToDoList
 import com.app.development.todolist.ui.add.AddCalendarActivity
+import com.app.development.todolist.ui.detail.EventDetailActivity
 import com.app.development.todolist.util.Preference
 import com.app.development.todolist.util.Util
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -30,9 +30,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private val events = arrayListOf<EventList>()
-    private  var allToDos = arrayListOf<ToDoList>()
-    private val eventAdapter = DateAdapter(events,allToDos,{eventItem -> onEventClick(eventItem)})
-    private lateinit var prefs:SharedPreferences
+    private var allToDos = arrayListOf<ToDoList>()
+    private val eventAdapter =
+        DateAdapter(events, allToDos, { eventItem -> onEventClick(eventItem) })
+    private lateinit var prefs: SharedPreferences
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 
@@ -56,20 +57,20 @@ class HomeFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        prefs = context!!.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+        prefs = context!!.getSharedPreferences(Preference.PREFS_FILENAME, Preference.PRIVATE_MODE)
     }
 
-    private fun initPullToRefresh(){
+    private fun initPullToRefresh() {
         swipeRefreshLayout = activity?.findViewById(R.id.swipe_container)!!
         swipeRefreshLayout.setOnRefreshListener { checkCalendarId() }
     }
 
-    private fun initViews(){
-        rvDates.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+    private fun initViews() {
+        rvDates.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvDates.adapter = eventAdapter
     }
 
-    private fun initViewModels(){
+    private fun initViewModels() {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         homeViewModel.events.observe(this, Observer {
             this@HomeFragment.events.clear()
@@ -81,32 +82,32 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun initAllToDoItems(){
-        homeViewModel.allToDo.observe(this , Observer {
+    private fun initAllToDoItems() {
+        homeViewModel.allToDo.observe(this, Observer {
             this@HomeFragment.allToDos.clear()
             this@HomeFragment.allToDos.addAll(it)
         })
     }
 
 
-    private fun checkCalendarId(){
-        val calendarId = prefs.getString(Preference.CALENDAR_ID,"")
-        if(calendarId.isNullOrEmpty()){
+    private fun checkCalendarId() {
+        val calendarId = prefs.getString(Preference.CALENDAR_ID, "")
+        if (calendarId.isNullOrEmpty()) {
             runCalendarIntent()
-        }else{
+        } else {
             initCalendarData(calendarId)
         }
     }
 
-    private fun runCalendarIntent(){
+    private fun runCalendarIntent() {
         val intent = Intent(context, AddCalendarActivity::class.java)
         startActivityForResult(intent, HomeActivity.ADD_CALENDAR_REQUEST_CODE)
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.action_calendar ->{
+        when (item?.itemId) {
+            R.id.action_calendar -> {
                 runCalendarIntent()
             }
         }
@@ -114,11 +115,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
-                HomeActivity.ADD_CALENDAR_REQUEST_CODE ->{
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                HomeActivity.ADD_CALENDAR_REQUEST_CODE -> {
                     val calendarId = data!!.getStringExtra(AddCalendarActivity.EXTRA_CALENDAR_ID)
-                    prefs.edit().putString(Preference.CALENDAR_ID,calendarId).apply()
+                    prefs.edit().putString(Preference.CALENDAR_ID, calendarId).apply()
                     initCalendarData(calendarId!!)
                 }
             }
@@ -126,20 +127,20 @@ class HomeFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun initCalendarData(calendarId: String){
+    private fun initCalendarData(calendarId: String) {
         println("get Calendar1 $calendarId")
-        println("get Calendar ${prefs.getString(Preference.CALENDAR_ID,"")}")
+        println("get Calendar ${prefs.getString(Preference.CALENDAR_ID, "")}")
         homeViewModel.getListOfEvents()
     }
 
-    private fun onEventClick(eventItem: EventItem){
+    private fun onEventClick(eventItem: EventItem) {
         val intent = Intent(context, EventDetailActivity::class.java)
         intent.putExtra(EXTRA_EVENT, eventItem)
         startActivity(intent)
     }
 
 
-    companion object{
+    companion object {
         const val EXTRA_EVENT = "EXTRA_EVENT"
     }
 

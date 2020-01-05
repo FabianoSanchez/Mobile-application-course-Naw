@@ -33,8 +33,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -42,7 +40,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         progressOverlay = findViewById(R.id.progress_overlay)
         progressOverlay.bringToFront()
-        prefs = this.getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
+        prefs = this.getSharedPreferences(Preference.PREFS_FILENAME, Preference.PRIVATE_MODE)
 
         initNavigation()
         initGoogleSignIn()
@@ -51,65 +49,68 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    private fun initGoogleSignIn(){
+    private fun initGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestServerAuthCode(getString(R.string.server_client_id))
             .requestScopes(Scope("https://www.googleapis.com/auth/calendar.readonly"))
             .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
 
-    private fun initNavigation(){
+    private fun initNavigation() {
         val navController = findNavController(R.id.navHomeFragment)
         NavigationUI.setupWithNavController(navView, navController)
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.toDoFragment,R.id.homeFragment
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.toDoFragment, R.id.homeFragment
+            )
+        )
         toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.action_logout -> {
-              logOutUser()
+                logOutUser()
             }
-            R.id.action_calendar ->{
+            R.id.action_calendar -> {
                 return false
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun logOutUser(){
+    private fun logOutUser() {
         deletePreferencesAndRoom()
 
-        Util.animateView(progressOverlay,View.VISIBLE,0.4f,200)
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,{
+        Util.animateView(progressOverlay, View.VISIBLE, 0.4f, 200)
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, {
             mGoogleSignInClient.signOut()
-            val intent = Intent(this,MainActivity::class.java)
-            Util.animateView(progressOverlay,View.GONE,0f,200)
+            val intent = Intent(this, MainActivity::class.java)
+            Util.animateView(progressOverlay, View.GONE, 0f, 200)
             startActivity(intent)
         })
 
     }
-    private fun deletePreferencesAndRoom(){
+
+    private fun deletePreferencesAndRoom() {
         prefs.edit().clear().apply()
         homeViewModel.deleteAllTables()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.toolbar_menu,menu)
+        inflater.inflate(R.menu.toolbar_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
 
-    companion object{
+    companion object {
         const val ADD_CALENDAR_REQUEST_CODE = 100
     }
 

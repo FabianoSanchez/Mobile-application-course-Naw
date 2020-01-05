@@ -1,8 +1,8 @@
 package com.app.development.todolist.util
 
-class Preference{
+class Preference {
 
-    companion object{
+    companion object {
         const val PRIVATE_MODE = 0
         const val PREFS_FILENAME = "com.app.development.todolist"
         const val REFRESH_TOKEN = "refresh_token"

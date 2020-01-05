@@ -32,10 +32,10 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -14,14 +14,27 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
+
+/** ViewModel for AddCalendarActivity */
 public class AddCalendarViewModel(application: Application) : AndroidViewModel(application) {
     private val calendarRepository = CalendarRepository()
     private val context = getApplication<Application>().applicationContext
     private val tokenAuthenticationsRepository = TokenAuthenticationRepository(application)
     private val apiKey = context.getString(R.string.api_key)
 
-    val calendar =  MutableLiveData<List<CalendarItem>>()
+    private val unauthorizedCallCode = 401
 
+    /** MutableLiveData which get observer by AddCalendarActivity */
+    val calendar = MutableLiveData<List<CalendarItem>>()
+
+
+    /**
+     *  Implementation of POST request in [CalendarRepository.getListOfCalendars].
+     *  Gets the accessToken from SharedPreferences
+     *  Uses CoroutineScopes to execute the POST request and return a [CalendarList] object.
+     *  Applies the list of [CalendarItem] to [calendar] if [response] isSuccesful.
+     *  if [response.code()] return [unauthorizedCallCode] then [refreshToken()] and execute the POST request again.
+     */
     public fun getListOfCalendars() {
         val accessToken =
             context.getSharedPreferences(Preference.PREFS_FILENAME, Preference.PRIVATE_MODE)
@@ -35,7 +48,7 @@ public class AddCalendarViewModel(application: Application) : AndroidViewModel(a
                     if (response.isSuccessful) {
                         calendar.apply { value = response.body()?.item }
                         println("Received Response")
-                    } else if (response.code() == 401) {
+                    } else if (response.code() == unauthorizedCallCode) {
                         println("Refreshing Token : ${response.code()}")
                         tokenAuthenticationsRepository.refreshToken()
                         getListOfCalendars()

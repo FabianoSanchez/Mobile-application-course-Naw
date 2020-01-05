@@ -1,8 +1,8 @@
 package com.app.development.todolist.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.app.development.todolist.R
 import com.app.development.todolist.ui.home.HomeActivity
@@ -29,57 +29,55 @@ class LoginActivity : AppCompatActivity() {
         initViewModel()
     }
 
-    private fun onClick(){
+    private fun onClick() {
         val signInIntent = mGoogleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
         println("boi Why")
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
     }
 
-    private fun initView(){
-        findViewById<SignInButton>(R.id.btnSignIn).setOnClickListener{onClick()}
+    private fun initView() {
+        findViewById<SignInButton>(R.id.btnSignIn).setOnClickListener { onClick() }
 
     }
 
-    private fun initGoogleSignIn(){
+    private fun initGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestServerAuthCode(getString(R.string.server_client_id))
             .requestScopes(Scope("https://www.googleapis.com/auth/calendar.readonly"))
             .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_SIGN_IN){
-            println("2 my boi")
+        if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
     }
 
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>){
-        try{
-            val prefs = getSharedPreferences(Preference.PREFS_FILENAME,Preference.PRIVATE_MODE)
-            prefs.edit().putBoolean(Preference.FIRST_TIME,false).apply()
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val prefs = getSharedPreferences(Preference.PREFS_FILENAME, Preference.PRIVATE_MODE)
+            prefs.edit().putBoolean(Preference.FIRST_TIME, false).apply()
             val account = completedTask.getResult(ApiException::class.java)
             loginViewModel.getAuthToken(account!!)
-            val intent = Intent(this,HomeActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
-        }catch (e: ApiException){
+        } catch (e: ApiException) {
             println("Sign in Result: failed Code= ${e.statusCode}")
         }
     }
 
-    companion object{
+    companion object {
         const val RC_SIGN_IN = 100
     }
-
 
 
 }

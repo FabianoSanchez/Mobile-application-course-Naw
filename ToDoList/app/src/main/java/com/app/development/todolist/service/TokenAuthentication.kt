@@ -5,15 +5,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-abstract class TokenAuthentication{
+
+/** Class for initializing the Retrofit with the baseUrl for receiving the tokens*/
+abstract class TokenAuthentication {
 
 
-    companion object{
+    companion object {
         private const val baseUrl = "https://oauth2.googleapis.com/"
 
-        fun createApi(): TokenAuthenticationService{
+        /** Initialize the Api so that the [TokenAuthenticationService] can be used to make Api calls. Returns [TokenAuthenticationService]*/
+        fun createApi(): TokenAuthenticationService {
             val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build()
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build()
 
             val tokenApi = Retrofit.Builder()
                 .baseUrl(baseUrl)

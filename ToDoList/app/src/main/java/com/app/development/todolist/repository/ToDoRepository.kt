@@ -6,31 +6,36 @@ import com.app.development.todolist.database.CalendarRoomDatabase
 import com.app.development.todolist.database.ToDoDao
 import com.app.development.todolist.model.ToDoList
 
-class ToDoRepository (context: Context){
+
+/** ToDoRepository uses [context]. Used for accessing the room database.*/
+class ToDoRepository(context: Context) {
 
 
     private var toDoDao: ToDoDao
 
-    init{
+    init {
+        /** Initialize the database with [context]*/
         val database = CalendarRoomDatabase.getDatabase(context)
         toDoDao = database!!.toDoDao()
     }
 
-
-
-    suspend fun insertTodo(toDo:ToDoList){
+    /** Insert a [ToDoList] into the database.*/
+    suspend fun insertTodo(toDo: ToDoList) {
         return toDoDao.insertToDo(toDo)
     }
 
-    suspend fun nukeTable(){
+    /** Delete all tables from ToDoList database*/
+    suspend fun nukeTable() {
         return toDoDao.nukeTable()
     }
 
-    fun getToDo(eventId:String):LiveData<ToDoList>{
+    /** Return a [ToDoList] object, based on the supplied [eventId]*/
+    fun getToDo(eventId: String): LiveData<ToDoList> {
         return toDoDao.getToDo(eventId)
     }
 
-     fun getAllTodo():LiveData<List<ToDoList>>{
+    /** Return all [ToDoList] objects in list*/
+    fun getAllTodo(): LiveData<List<ToDoList>> {
         return toDoDao.getAllToDo()
     }
 

@@ -10,19 +10,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-public class EventDetailViewModel(application: Application):AndroidViewModel(application){
+/** ViewModel for EventDetailActivity */
+class EventDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private val toDoRepository = ToDoRepository(application.applicationContext)
 
     lateinit var toDo: LiveData<ToDoList>
 
-    fun getListOfToDo(eventId: String){
+    /** Initializes [toDo_] with ToDoList based on the eventId */
+    fun getListOfToDo(eventId: String) {
         toDo = toDoRepository.getToDo(eventId)
     }
 
-    fun insertToDo(toDoList: ToDoList){
+
+    /** Insert a [toDoList] into the ToDoList table */
+    fun insertToDo(toDoList: ToDoList) {
         CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 toDoRepository.insertTodo(toDoList)
             }
         }

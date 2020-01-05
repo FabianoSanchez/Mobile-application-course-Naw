@@ -10,18 +10,36 @@ import retrofit2.http.Query
 
 interface CalendarApiService {
 
+
+    /**
+     *  A GET request for Google Calendar which returns a Response of [CalendarList], using the [apiKey] and [accessToken]
+     * The [accessToken] grants access to the users information and the [apiKey] allow access to the Google Api
+     */
     @GET("users/me/calendarList")
-    suspend fun getListOfCalendars(@Query("key") apiKey: String,
-                           @Query("access_token") accessToken:String) : Response<CalendarList>
+    suspend fun getListOfCalendars(
+        @Query("key") apiKey: String,
+        @Query("access_token") accessToken: String
+    ): Response<CalendarList>
 
 
-
-    @GET("calendars/{path_variable}/events")
-    suspend fun getListOfEvents(@Path("path_variable")calendarId: String,
-                        @Query("orderBy")orderBy:String,
-                        @Query("timeMin")dateTime: DateTime,
-                        @Query("key")apiKey:String,
-                        @Query("singleEvents")singleEvents:Boolean = true,
-                        @Query("access_token")accessToken: String) : Response<EventList>
+    /**
+     * A GET request for Google Calendar which returns a Response of [EventList], using the [accessToken] and [apiKey]
+     * @param calendarId    an ID which identifies the selected Calendar for Google Calendar
+     * @param orderBy       a hardcoded string: 'startTime'. This orders the response by start time of event
+     * @param dateTime      DateTime.now() which has been formatted for rfc3339 format
+     * @param apiKey        a generated key by Google
+     * @param singleEvents  a Boolean which is always true, otherwise orderBy doesn't function correctly
+     * @param accessToken   the token which gives access to the logged in users data
+     * @return Response<EventList>
+     * */
+    @GET("calendars/{calendarId}/events")
+    suspend fun getListOfEvents(
+        @Path("calendarId") calendarId: String,
+        @Query("orderBy") orderBy: String,
+        @Query("timeMin") dateTime: DateTime,
+        @Query("key") apiKey: String,
+        @Query("singleEvents") singleEvents: Boolean = true,
+        @Query("access_token") accessToken: String
+    ): Response<EventList>
 
 }
